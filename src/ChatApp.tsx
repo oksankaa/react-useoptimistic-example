@@ -51,7 +51,7 @@ export default function ChatApp() {
         {optimisticMessages.length > 0 && (
           <div>
             Optimistic:
-            {optimisticMessages.map((msg) => (
+            {optimisticMessages.map(msg => (
               <div className="message optimistic" key={msg.id}>
                 {msg.text}
               </div>
@@ -62,7 +62,7 @@ export default function ChatApp() {
         {messages.length > 0 && (
           <div>
             Confirmed:
-            {messages.map((msg) => (
+            {messages.map(msg => (
               <div className="message server" key={msg.id}>
                 {msg.text}
               </div>
