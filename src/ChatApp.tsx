@@ -16,10 +16,12 @@ export default function ChatApp() {
   >(messages, (state, message) => [message, ...state])
 
   const sendMessage = async () => {
-    if (!input.trim()) return
+    const text = input.trim()
+    if (!text) {
+      return
+    }
 
     startTransition(async () => {
-      const text = input
       addOptimisticMessage({
         id: crypto.randomUUID(),
         text,
@@ -36,7 +38,10 @@ export default function ChatApp() {
 
   return (
     <div>
-      <form className="chat-input-container"  onSubmit={sendMessage}>
+      <form className="chat-input-container" onSubmit={(e) => {
+        e.preventDefault()
+        sendMessage()
+      }}>
         <input
           className="chat-input"
           value={input}
