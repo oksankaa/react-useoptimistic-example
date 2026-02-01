@@ -1,38 +1,38 @@
-import { useState, useOptimistic, startTransition } from 'react';
-import { sendMessageToServer } from './utils/fake-api';
+import { useState, useOptimistic, startTransition } from 'react'
+import { sendMessageToServer } from './utils/fake-api'
 
 export interface Message {
-  id: string;
-  text: string;
+  id: string
+  text: string
 }
 
 export default function ChatApp() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
 
   const [optimisticMessages, addOptimisticMessage] = useOptimistic<
     Message[],
     Message
-  >(messages, (state, message) => [message, ...state]);
+  >(messages, (state, message) => [message, ...state])
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) return
 
     startTransition(async () => {
-      const text = input;
+      const text = input
       addOptimisticMessage({
         id: crypto.randomUUID(),
         text,
-      });
+      })
       try {
-        const sentMessage = await sendMessageToServer(text);
-        setMessages([sentMessage, ...messages]);
+        const sentMessage = await sendMessageToServer(text)
+        setMessages([sentMessage, ...messages])
       } catch (err) {
-        alert('Ups, something went wrong. Please send your message again.');
+        alert('Ups, something went wrong. Please send your message again.')
       }
-    });
-    setInput('');
-  };
+    })
+    setInput('')
+  }
 
   return (
     <div>
@@ -71,5 +71,5 @@ export default function ChatApp() {
         )}
       </div>
     </div>
-  );
+  )
 }
