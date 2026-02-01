@@ -1,6 +1,6 @@
 export function sendMessageToServer(
   text: string
-): Promise<{ id: string text: string }> {
+): Promise<{ id: string; text: string }> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const success = Math.random() < 0.5
@@ -15,4 +15,5 @@ export function sendMessageToServer(
     }, 1000)
   })
 }
+
 
