@@ -36,7 +36,7 @@ export default function ChatApp() {
 
   return (
     <div>
-      <div className="chat-input-container">
+      <form className="chat-input-container"  onSubmit={sendMessage}>
         <input
           className="chat-input"
           value={input}
@@ -46,7 +46,7 @@ export default function ChatApp() {
         <button className="chat-send-button" onClick={sendMessage}>
           Send
         </button>
-      </div>
+      </form>
       <div className="chat-messages">
         {optimisticMessages.length > 0 && (
           <div>
