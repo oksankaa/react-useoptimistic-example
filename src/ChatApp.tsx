@@ -38,17 +38,14 @@ export default function ChatApp() {
 
   return (
     <div>
-      <form className="chat-input-container" onSubmit={(e) => {
-        e.preventDefault()
-        sendMessage()
-      }}>
+      <form className="chat-input-container" action={sendMessage}>
         <input
           className="chat-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Write a message…"
         />
-        <button className="chat-send-button" onClick={sendMessage}>
+        <button className="chat-send-button" type="submit">
           Send
         </button>
       </form>
