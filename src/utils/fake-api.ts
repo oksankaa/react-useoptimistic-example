@@ -1,6 +1,15 @@
+export interface Message {
+  id: string
+  text: string
+}
+
+export function getId() {
+  return Math.random().toString(36).substring(2, 6)
+}
+
 export function sendMessageToServer(
   text: string
-): Promise<{ id: string; text: string }> {
+): Promise<Message> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const success = Math.random() < 0.5
@@ -8,12 +17,10 @@ export function sendMessageToServer(
         reject(new Error('Server exploded 💥'))
       } else {
         resolve({
-          id: crypto.randomUUID(),
+          id: getId(),
           text,
         })
       }
     }, 1000)
   })
 }
-
-
