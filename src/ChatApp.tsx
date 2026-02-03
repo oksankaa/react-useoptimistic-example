@@ -1,10 +1,5 @@
 import { useState, useOptimistic, startTransition } from 'react'
-import { sendMessageToServer } from './utils/fake-api'
-
-export interface Message {
-  id: string
-  text: string
-}
+import { getId, sendMessageToServer, type Message } from './utils/fake-api'
 
 export default function ChatApp() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -23,7 +18,7 @@ export default function ChatApp() {
 
     startTransition(async () => {
       addOptimisticMessage({
-        id: crypto.randomUUID(),
+        id: getId(),
         text,
       })
       try {
@@ -50,23 +45,22 @@ export default function ChatApp() {
         </button>
       </form>
       <div className="chat-messages">
-        {optimisticMessages.length > 0 && (
-          <div>
-            Optimistic:
-            {optimisticMessages.map(msg => (
-              <div className="message optimistic" key={msg.id}>
-                {msg.text}
-              </div>
-            ))}
-          </div>
-        )}
-
         {messages.length > 0 && (
           <div>
-            Confirmed:
-            {messages.map(msg => (
-              <div className="message server" key={msg.id}>
-                {msg.text}
+            <div className="chat-description"> Messages confirmed by the server:</div>
+              {messages.map(msg => (
+                <div className="message server" key={msg.id}>
+                  {msg.text} | id: {msg.id}
+                </div>
+              ))}
+          </div>
+        )}
+        {optimisticMessages.length > 0 && (
+          <div>
+            <div className="chat-description">Messages shown optimistically (before server response):</div>
+            {optimisticMessages.map(msg => (
+              <div className="message optimistic" key={msg.id}>
+                {msg.text} | id: {msg.id}
               </div>
             ))}
           </div>
