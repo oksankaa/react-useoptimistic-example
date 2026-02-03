@@ -12,7 +12,7 @@
   min-height: 150px;
   max-height: 300px;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .message {
@@ -25,18 +25,17 @@
 
 .message.optimistic {
   background-color: #daf1ff;
-  align-self: flex-end;
-  margin-left: auto;
   color: #0366d6;
 }
 
 .message.server {
   background-color: #eee;
-  align-self: flex-start;
-  margin-right: auto;
   color: #444;
 }
 
+.chat-description {
+  margin-bottom: 10px;
+}
 .chat-input {
   flex-grow: 1;
   padding: 8px 12px;
