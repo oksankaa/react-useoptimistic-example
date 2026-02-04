@@ -4,6 +4,7 @@ import { getId, sendMessageToServer, type Message } from './utils/fake-api'
 export default function ChatApp() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
+  const [error, setError] = useState('')
 
   const [optimisticMessages, addOptimisticMessage] = useOptimistic<
     Message[],
@@ -18,14 +19,17 @@ export default function ChatApp() {
 
     startTransition(async () => {
       addOptimisticMessage({
-        id: getId(),
+        id: `generated-${getId()}`,
         text,
       })
       try {
         const sentMessage = await sendMessageToServer(text)
         setMessages([sentMessage, ...messages])
       } catch (err) {
-        alert('Ups, something went wrong. Please send your message again.')
+        setError('Ups, something went wrong. Please send your message again.')
+        setTimeout(() => {
+          setError('')
+        }, 3000)
       }
     })
     setInput('')
@@ -45,27 +49,23 @@ export default function ChatApp() {
         </button>
       </form>
       <div className="chat-messages">
-        {messages.length > 0 && (
-          <div>
-            <div className="chat-description"> Messages confirmed by the server:</div>
-              {messages.map(msg => (
-                <div className="message server" key={msg.id}>
-                  {msg.text} | id: {msg.id}
-                </div>
-              ))}
-          </div>
-        )}
-        {optimisticMessages.length > 0 && (
-          <div>
-            <div className="chat-description">Messages shown optimistically (before server response):</div>
-            {optimisticMessages.map(msg => (
-              <div className="message optimistic" key={msg.id}>
-                {msg.text} | id: {msg.id}
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="message-section">
+          Messages confirmed by the server:
+          {error && <div className="error-label">{error}</div>}
+          {messages.map(msg => (
+            <div className="message server" key={msg.id}>
+              {msg.text} | id: {msg.id}
+            </div>
+          ))}
+        </div>
+        Messages shown optimistically (before server response):
+          {optimisticMessages.map(msg => (
+            <div className="message optimistic" key={msg.id}>
+              {msg.text} | id: {msg.id}
+            </div>
+          ))}
       </div>
     </div>
   )
 }
+
