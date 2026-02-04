@@ -3,8 +3,9 @@ export interface Message {
   text: string
 }
 
-export function getId() {
-  return Math.random().toString(36).substring(2, 6)
+let fakeId = 1
+export function getId(): number {
+  return fakeId++
 }
 
 export function sendMessageToServer(
@@ -14,10 +15,10 @@ export function sendMessageToServer(
     setTimeout(() => {
       const success = Math.random() < 0.5
       if (!success) {
-        reject(new Error('Server exploded 💥'))
+        reject(new Error('Server exploded'))
       } else {
         resolve({
-          id: getId(),
+          id: getId().toString(),
           text,
         })
       }
